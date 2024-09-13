@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 예제</title>
+    <style>
+        /* 1. 슬라이드 영역(#slideArea) 스타일 설정
+           - 너비와 높이 지정
+           - overflow 속성으로 넘치는 내용 숨기기
+           - position 설정 */
+        #slideArea {
+            width: 100vw;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 2. 슬라이드(#slide) 스타일 설정
+           - 너비와 높이 지정
+           - position 속성으로 위치 제어
+           - top 속성 초기화
+           - transition 효과 추가 */
+        #slide {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            transition: all 0.5s;
+            position: absolute;
+        }
+
+        /* 3. 개별 슬라이드 이미지 스타일 설정
+           - 너비와 높이 지정
+           - object-fit 속성으로 이미지 비율 조정 */
+        #slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="slideArea">
+        <h2>슬라이드</h2>
+        <div id="slide">
+            <img src="images/slide1.jpg" alt="슬라이드1">
+            <img src="images/slide2.jpg" alt="슬라이드2">
+            <img src="images/slide3.jpg" alt="슬라이드3">
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const slide = document.getElementById("slide");
+            const totalSlides = slide.children.length;
+            const slideHeight = 300; // 슬라이드 높이
+
+            // 1. resetPosition 함수 개선
+            function resetPosition() {
+                // 여기에 코드를 작성하세요
+                // - transition 효과를 제거하세요
+                slide.style.transition = "none"
+                // - slide의 top 위치를 초기화하세요
+                slide.style.top = 0;
+                const firstImage = slide.children[0];
+                // - 첫 번째 이미지를 마지막으로 이동시키세요 
+                slide.appendChild(firstImage);
+                // 강제로 리플로우 발생시켜 즉시 변경하도록한다.
+                slide.offsetHeight;
+                // 트랜지션 재설정
+                slide.style.transition = "top 0.5s"
+            }
+
+            // 2. nextSlide 함수 개선
+            function nextSlide() {
+                // 여기에 코드를 작성하세요
+                // - transition 효과를 추가하세요
+                // 트랜지션 시간과 일치시킨다.
+                slide.style.transition = "top 0.5s";
+                // - slide를 위로 이동시키세요 (top 값을 음수로 설정)
+                slide.style.top = `-${slideHeight}px`;
+                // - setTimeout을 사용하여 전환 효과 후 resetPosition 함수를 호출하세요
+                setTimeout(resetPosition, 500)
+            }
+
+            // 3. startAutoSlide 함수 구현
+            function startAutoSlide() {
+                // - setInterval을 사용하여 일정 간격으로 nextSlide 함수를 호출하세요
+                // 여기에 코드를 작성하세요
+                setInterval(nextSlide, 2500);
+            }
+
+            // 4. 초기 설정 및 자동 슬라이드 시작
+            // - resetPosition 함수를 호출하여 초기 상태를 설정하세요
+            resetPosition();
+            // - startAutoSlide 함수를 호출하여 자동 슬라이드를 시작하세요
+            setTimeout(startAutoSlide, 0)
+
+            // 여기에 코드를 작성하세요
+            // resetPosition();
+            // startAutoSlide();
+        });
+    </script>
+</body>
+
+</html>
